@@ -1,0 +1,34 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: Bastion IAM Policy
+
+Parameters:
+  ChildAwsAccount:
+    Type: String
+    Description: Enter the child account ID
+  ChildAwsRole:
+    Type: String
+    Description: Enter the child account role
+    Default: OrganizationAccountAccessRole
+  GroupName:
+    Type: String
+
+Resources:
+  WorkerPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: !Sub "AssumeRoleFor${GroupName}"
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - sts:AssumeRole
+            Resource:
+              - !Sub "arn:aws:iam::${ChildAwsAccount}:role/${ChildAwsRole}"
+      Groups:
+        - !Ref WorkerGroup
+  WorkerGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: !Sub "${GroupName}-${ChildAwsRole}"
