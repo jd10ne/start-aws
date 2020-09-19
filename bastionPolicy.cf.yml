@@ -17,7 +17,7 @@ Resources:
   WorkerPolicy:
     Type: AWS::IAM::ManagedPolicy
     Properties:
-      ManagedPolicyName: !Sub "AssumeRoleFor${GroupName}"
+      ManagedPolicyName: !Sub AssumeRoleFor${GroupName}
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -25,10 +25,10 @@ Resources:
             Action:
               - sts:AssumeRole
             Resource:
-              - !Sub "arn:aws:iam::${ChildAwsAccount}:role/${ChildAwsRole}"
+              - !Sub arn:aws:iam::${ChildAwsAccount}:role/${ChildAwsRole}
       Groups:
         - !Ref WorkerGroup
   WorkerGroup:
     Type: AWS::IAM::Group
     Properties:
-      GroupName: !Sub "${GroupName}-${ChildAwsRole}"
+      GroupName: !Sub ${GroupName}-${ChildAwsRole}

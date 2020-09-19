@@ -17,7 +17,7 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       AccessControl: Private
-      BucketName: !Sub "cloudtrail-logs-${AWS::AccountId}"
+      BucketName: !Sub cloudtrail-logs-${AWS::AccountId}
       PublicAccessBlockConfiguration:
         BlockPublicAcls: True
         BlockPublicPolicy: True
@@ -31,18 +31,18 @@ Resources:
       PolicyDocument:
         Statement:
           - Action:
-              - "S3:GetBucketAcl"
+              - S3:GetBucketAcl
             Effect: Allow
             Principal:
-              Service: "cloudtrail.amazonaws.com"
-            Resource: !Sub "${Bucket.Arn}"
+              Service: cloudtrail.amazonaws.com
+            Resource: !Sub ${Bucket.Arn}
           - Action:
-              - "S3:PutObject"
+              - S3:PutObject
             Effect: Allow
             Principal: 
-              Service: "cloudtrail.amazonaws.com"
+              Service: cloudtrail.amazonaws.com
             Resource:
-              - !Sub "${Bucket.Arn}/AWSLogs/${AWS::AccountId}/*"
+              - !Sub ${Bucket.Arn}/AWSLogs/${AWS::AccountId}/*
             Condition:
               StringEquals:
-                "s3:x-amz-acl": bucket-owner-full-control
+                s3:x-amz-acl: bucket-owner-full-control
