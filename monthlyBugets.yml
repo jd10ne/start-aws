@@ -1,0 +1,26 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: Bastion IAM Policy
+
+Parameters:
+  NotifyEmailAddress:
+    Type: String
+    Description: E-mail address to send report
+  MonthlyBudget:
+    Type: String
+    Description: Monthly budget (USD)
+  Name:
+    Type: String
+    Description: Budget name
+
+Resources:
+  Budgets:
+    Type: AWS::Budgets::Budget
+    Properties:
+      Budget:
+        BudgetLimit:
+          Amount: !Ref MonthlyBudget
+          Unit: USD
+        BudgetName: !Ref Name
+        BudgetType: COST
+        TimeUnit: MONTHLY
